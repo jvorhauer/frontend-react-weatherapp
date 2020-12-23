@@ -14,7 +14,7 @@ import './App.css';
 import TodayTab from './pages/todayTab/TodayTab';
 
 // LET OP: VOEG HIER JOUW API KEY IN
-// const apiKey = '--plaats jouw API key hier!--';
+const apiKey = '--plaats jouw API key hier!--';
 
 function App() {
   const [weatherData, setWeatherData] = useState(null);
@@ -30,7 +30,6 @@ function App() {
       try {
         const result = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${location},nl&appid=${apiKey}&lang=nl`);
         setWeatherData(result.data);
-        console.log(result.data);
         toggleLoading(false);
       } catch (e) {
         console.error(e);
@@ -80,10 +79,10 @@ function App() {
             <div className="tab-wrapper">
               <Switch>
                   <Route exact path="/">
-                    <TodayTab />
+                    <TodayTab coordinates={weatherData && weatherData.coord} />
                   </Route>
                   <Route path="/komende-week">
-                    <ForecastTab coordinates={weatherData && weatherData.coord}/>
+                    <ForecastTab coordinates={weatherData && weatherData.coord} />
                   </Route>
               </Switch>
             </div>

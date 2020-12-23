@@ -5,7 +5,7 @@ import createDateString from '../../helpers/createDateString';
 import './ForecastTab.css';
 
 // LET OP: VOEG HIER JOUW API KEY IN
-// const apiKey = '--plaats jouw API key hier!--';
+const apiKey = '--plaats jouw API key hier!--';
 
 function ForecastTab({ coordinates }) {
   const [forecasts, setForecasts] = useState(null);
