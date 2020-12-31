@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from 'react-router-dom';
+import { TempContext } from './context/TempContextProvider';
 import SearchBar from './components/searchBar/SearchBar';
 import TabBarMenu from './components/tabBarMenu/TabBarMenu';
 import MetricSlider from './components/metricSlider/MetricSlider';
 import ForecastTab from './pages/forecastTab/ForecastTab';
-import kelvinToCelcius from './helpers/kelvinToCelcius';
 import './App.css';
 import TodayTab from './pages/todayTab/TodayTab';
 
@@ -22,6 +22,8 @@ function App() {
   const [error, setError] = useState(false);
   const [loading, toggleLoading] = useState(false);
 
+  const { kelvinToMetric } = useContext(TempContext);
+
   useEffect(() => {
     async function fetchData() {
       setError(false);
@@ -30,12 +32,12 @@ function App() {
       try {
         const result = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${location},nl&appid=${apiKey}&lang=nl`);
         setWeatherData(result.data);
-        toggleLoading(false);
       } catch (e) {
         console.error(e);
         setError(true);
-        toggleLoading(false);
       }
+
+      toggleLoading(false);
     }
 
     if (location) {
@@ -65,7 +67,7 @@ function App() {
             <>
               <h2>{weatherData.weather[0].description}</h2>
               <h3>{weatherData.name}</h3>
-              <h1>{kelvinToCelcius(weatherData.main.temp)}</h1>
+              <h1>{kelvinToMetric(weatherData.main.temp)}</h1>
             </>
             }
           </span>
