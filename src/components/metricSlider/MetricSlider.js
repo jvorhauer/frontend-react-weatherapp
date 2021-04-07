@@ -6,7 +6,9 @@ const MetricSlider = () => {
   const [checked, toggleChecked] = useState(true);
   const { toggleTemp } = useContext(TempContext);
 
-  useEffect(toggleTemp, [checked]);
+  useEffect(() => {
+      toggleTemp();
+  }, [checked]);
 
   return (
     <div className="weather-container-extention">
